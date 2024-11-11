@@ -6,12 +6,6 @@ function App() {
     <>
     <Header></Header>
     <Product></Product>
-    <Product></Product>
-    <Product></Product>
-    <Product></Product>
-    <Product></Product>
-    <Product></Product>
-    <Product></Product>
     <Footer></Footer>
     </>
   );
