@@ -41,3 +41,21 @@ li {
 hr {
  color: #ff2400;
 }
+p{
+  color: #ff2400;
+}
+.Product{
+  border: 3px solid #ff2400;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #cf6c5c;
+  text-align: center;
+  display: inline-block;
+  padding: 20px;
+  margin: 10px;
+  max-width: 250px;
+ 
+}
+img{
+  max-width: 250px;
+  max-height: 250px;
+}

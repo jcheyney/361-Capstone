@@ -1,7 +1,19 @@
-import Header from "./Header.jsx"
+import Header from './Header.jsx'
+import Footer from './Footer.jsx'
+import Product from './Product.jsx'
 function App() {
   return(
+    <>
     <Header></Header>
+    <Product></Product>
+    <Product></Product>
+    <Product></Product>
+    <Product></Product>
+    <Product></Product>
+    <Product></Product>
+    <Product></Product>
+    <Footer></Footer>
+    </>
   );
 }
 
