@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "pHhvoMy6/+M=",
+  "success": true,
+  "projectFilePath": "/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/CSCE361  Capstone.sqlproj",
+  "expectedPackageFiles": [
+    "/Users/oliviamuenster/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.0/microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "/Users/oliviamuenster/.nuget/packages/microsoft.netframework.referenceassemblies.net46/1.0.0/microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

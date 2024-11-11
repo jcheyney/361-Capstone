@@ -1,0 +1,9 @@
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/bin/Debug/CSCE361  Capstone.dacpac
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/bin/Debug/CSCE361  Capstone.dll
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/bin/Debug/CSCE361  Capstone.pdb
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/obj/Debug/Model.xml
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/obj/Debug/refactor.xml
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/obj/Debug/postdeploy.sql
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/obj/Debug/predeploy.sql
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/obj/Debug/CSCE361  Capstone.dll
+/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/obj/Debug/CSCE361  Capstone.pdb

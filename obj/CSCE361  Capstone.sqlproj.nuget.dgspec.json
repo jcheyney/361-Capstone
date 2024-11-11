@@ -1,0 +1,55 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/CSCE361  Capstone.sqlproj": {}
+  },
+  "projects": {
+    "/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/CSCE361  Capstone.sqlproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/CSCE361  Capstone.sqlproj",
+        "projectName": "CSCE361  Capstone",
+        "projectPath": "/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/CSCE361  Capstone.sqlproj",
+        "packagesPath": "/Users/oliviamuenster/.nuget/packages/",
+        "outputPath": "/Users/oliviamuenster/CSCE361 Capstone Project/CSCE361  Capstone/obj/",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "/Users/oliviamuenster/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net46"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net46": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "noWarn": [
+            "NU5128"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net46": {
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.0, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}
