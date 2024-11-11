@@ -1,5 +1,6 @@
 USE omuenster2;
 
+DROP TABLE IF EXISTS guestUser;
 DROP TABLE IF EXISTS userAddress;
 DROP TABLE IF EXISTS userCard; 
 DROP TABLE IF EXISTS customer; 
@@ -8,6 +9,12 @@ DROP TABLE IF EXISTS sale;
 DROP TABLE IF EXISTS store;
 DROP TABLE IF EXISTS cart; 
 DROP TABLE IF EXISTS userOrder;
+
+CREATE TABLE guestUser(
+    guestID INT NOT NULL,
+    cartID INT NOT NULL,
+    FOREIGN KEY (cardID) REFERENCES userCard (cardID)
+);
 
 CREATE TABLE userAddress (
     userAddressID INT NOT NULL PRIMARY KEY,
@@ -23,6 +30,7 @@ CREATE TABLE customer (
     userName VARCHAR(255) NOT NULL,
     addressID INT NOT NULL,
     cardID INT NOT NULL,
+    FOREIGN KEY (cardID) REFERENCES userCard (cardID),
     FOREIGN KEY (addressID) REFERENCES userAddress(userAddressID)
 );
 
