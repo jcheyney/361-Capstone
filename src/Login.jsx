@@ -1,42 +1,27 @@
-const Login = (props) => {
+import React from 'react'
 
-
-  const navigate = useNavigate()
-
-  const onButtonClick = () => {
-    // update this function later
-  }
-
-  return (
-    <div className={'mainContainer'}>
-      <div className={'titleContainer'}>
-        <div>Login</div>
-      </div>
-      <br />
-      <div className={'inputContainer'}>
-        <input
-          value={username}
-          placeholder="Enter your username here"
-          //have the intput show up in the input box
-          className={'inputBox'}
-        />
-      </div>
-      <br />
-      <div className={'inputContainer'}>
-        <input
-          value={password}
-          placeholder="Enter your password here"
-          //have the intput show up in the input box
-          className={'inputBox'}
-        />
-      </div>
-      <br />
-      <div className={'inputContainer'}>
-        <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
-      </div>
-    </div>
-  )
+const Login = () => {
+    return (
+        <div className='container'>
+            <div className="header">
+                <div className='text'>Login</div>
+                <div className="userline"></div>
+            </div>
+            <div className="inputs">
+                <div className="inputs">
+                <input type='text'/>
+                </div>
+                <div className="inputs">
+                    <input type='email' />
+                </div>
+                <div className="inputs">
+                    <input type='password' />
+                </div>
+            </div>
+            <div className='submit-container'>
+                <div className="submit">Sign Up</div>
+                <div className="submit">Login</div>
+            </div>
+        </div>
+    )
 }
-
-export default Login
-
