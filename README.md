@@ -9,4 +9,9 @@ Some of the challenges you faced and features you hope to implement in the futur
 ## How to Use Our Project 
 
 ## Authors 
-
+Armon'e Dean [Junior Student of Computer Science]
+Haoze [Junior Student of Computer Science]
+Jordyn Cheyney [Junior Student of Computer Science]
+Jun Kim [Junior Student of Computer Science]
+Olivia Muenster [Junior Student of Computer Science, Mathematics]
+Mercedes Nolda [Junior Student of Computer Science]
