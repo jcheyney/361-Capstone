@@ -1,27 +1,36 @@
-import React from 'react'
-
-const Login = () => {
+function Login() {
     return (
-        <div className='container'>
-            <div className="header">
-                <div className='text'>Login</div>
-                <div className="userline"></div>
-            </div>
-            <div className="inputs">
-                <div className="inputs">
-                <input type='text'/>
+        <div className='Login-Screen'>
+            <div className='container'>
+                <div>
+                    <div className="Login">
+                        <div className='text'>Login</div>
+                        <div className="userline"></div>
+                    </div>
+                    <div className="username">
+                        <label>Username</label>
+                        <input
+                            type="username"
+                            placeholder="Enter username" />
+                    </div>
+                    <div className="pasword">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            placeholder="Enter password" />
+                    </div>
+                    <div className='submit-container'>
+                        <div className="submit">
+                            <button type="submit" className="login-button">Login</button>
+                            <button type="submit" className="login-button">Sign Up</button>
+                        </div>
+                    </div>
+                    <p className="forgot-password text-right">
+                        Forgot <a href="#">password?</a>
+                    </p>
                 </div>
-                <div className="inputs">
-                    <input type='email' />
-                </div>
-                <div className="inputs">
-                    <input type='password' />
-                </div>
-            </div>
-            <div className='submit-container'>
-                <div className="submit">Sign Up</div>
-                <div className="submit">Login</div>
             </div>
         </div>
     )
 }
+export default Login
