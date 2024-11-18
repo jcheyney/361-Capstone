@@ -87,3 +87,20 @@ p{
         margin: 50px;
         max-width: 250px;
     }
+.SignUp-Screen {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+}
+    .SignUp-Screen .container {
+        border: 3px solid #ff2400;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px #cf6c5c;
+        text-align: center;
+        padding: 20px;
+        margin: 50px;
+        max-width: 250px;
+    }
