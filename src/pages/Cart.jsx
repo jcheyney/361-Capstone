@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 
 const Cart = () => {
-  // 模拟的购物车数据
+  // 
   const [cartItems, setCartItems] = useState([
     { id: 1, name: 'T-Shirt', price: 19.99, quantity: 2, image: 'https://via.placeholder.com/150' },
     { id: 2, name: 'Jeans', price: 49.99, quantity: 1, image: 'https://via.placeholder.com/150' },
     { id: 3, name: 'Jacket', price: 89.99, quantity: 1, image: 'https://via.placeholder.com/150' }
   ]);
 
-  // 更新商品数量
+  // 
   const updateQuantity = (id, delta) => {
     setCartItems(prevItems =>
       prevItems.map(item =>
@@ -18,12 +18,12 @@ const Cart = () => {
     );
   };
 
-  // 计算总价
+  
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
 
-  // 移除商品
+  
   const removeItem = id => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== id));
   };

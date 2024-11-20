@@ -2,6 +2,33 @@
 import React from 'react';
 
 const App = () => {
+  const products = [
+    {
+      title: "Men's Jacket",
+      imgSrc: 'https://via.placeholder.com/300x250?text=Men%27s+Jacket',
+    },
+    {
+      title: "Women's Dress",
+      imgSrc: 'https://via.placeholder.com/300x250?text=Women%27s+Dress',
+    },
+    {
+      title: 'Casual Shirt',
+      imgSrc: 'https://via.placeholder.com/300x250?text=Casual+Shirt',
+    },
+    {
+      title: 'Jeans',
+      imgSrc: 'https://via.placeholder.com/300x250?text=Jeans',
+    },
+    {
+      title: 'Sneakers',
+      imgSrc: 'https://via.placeholder.com/300x250?text=Sneakers',
+    },
+    {
+      title: 'Handbag',
+      imgSrc: 'https://via.placeholder.com/300x250?text=Handbag',
+    },
+  ];
+
   return (
     <>
       {/* Hero Section */}
@@ -28,43 +55,26 @@ const App = () => {
       {/* Products Section */}
       <section>
         <div className="container py-3">
-          <div className="row">
-            <div className="col-md">
-              <div className="card" style={{ width: '18rem' }}>
-                <img
-                  src="https://imgs.search.brave.com/PniBaKE1ZNLggZz5Mk6kpvGE6NaA441N2icqOPnssxM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9ib25v/Ym9zLXByb2QtczMu/aW1naXgubmV0L3By/b2R1Y3RzLzMyNTE3/MC9vcmlnaW5hbC9K/QUNLRVRfRlVMTC1a/SVAtSkFDS0VUX0JP/VDExMzQ0TjExMTZC/XzNfY2F0ZWdvcnku/anBnPzE2OTQ4MTAx/MzY9JmF1dG89Y29t/cHJlc3MsZm9ybWF0/JmZpdD1jbGlwJmNz/PXNyZ2Imdz0xOTIw/JmZtPXBqcGc"
-                  className="card-img-top"
-                  alt="Men's Jacket"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Men's Jacket</h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's content.
-                  </p>
-                  <a href="#" className="btn btn-danger">
-                    Buy Now
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Duplicate Product Cards */}
-            {[...Array(5)].map((_, index) => (
-              <div className="col-md" key={index}>
-                <div className="card" style={{ width: '18rem' }}>
+          <div className="row row-cols-1 row-cols-md-3 g-4">
+            {products.map((product, index) => (
+              <div className="col" key={index}>
+                <div className="card h-100">
                   <img
-                    src="https://imgs.search.brave.com/5t5Go08DF4AbtG58WTJR_wOTroQfNkAuWc4h5XIPeRc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzg1LzNm/Lzk2Lzg1M2Y5NjRj/OGVmZTYxNmY5NDRm/MmZmMGRkYWRlNWIy/LmpwZw"
+                    src={product.imgSrc}
                     className="card-img-top"
-                    alt="Card title"
+                    alt={product.title}
+                    style={{ objectFit: 'cover', height: '250px' }}
                   />
-                  <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{product.title}</h5>
                     <p className="card-text">
                       Some quick example text to build on the card title and make up the bulk of the card's content.
                     </p>
-                    <a href="#" className="btn btn-danger">
-                      Buy Now
-                    </a>
+                    <div className="mt-auto">
+                      <a href="#" className="btn btn-danger">
+                        Buy Now
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

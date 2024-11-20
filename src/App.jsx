@@ -25,7 +25,7 @@ const App = () => {
   return (
     <div>
       <Header setPage={setPage} />
-      <main className="py-4">{renderPage()}</main>
+      <main>{renderPage()}</main>
       <Footer />
     </div>
   );
