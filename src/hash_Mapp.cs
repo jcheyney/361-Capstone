@@ -29,7 +29,7 @@ public class Program
 
     public void SetCart(int cartID, int customerID, int totalCost, int orderID)
     {
-        string key = "Cart_" + cartID
+        string key = "Cart_" + cartID;
         myMap[key] = new { CustomerID = customerID, TotalCost = totalCost, OrderID = orderID };
     }
 
@@ -59,7 +59,7 @@ public class Program
 
     public object GetCartInfo(int cartID)
     {
-        string key = "Cart_" + cartID
+        string key = "Cart_" + cartID;
         if (myMap.ContainsKey(key))
         {
             return myMap[key];
@@ -70,25 +70,25 @@ public class Program
         }
     }
 
-    public static void Main(string[] args)
-    {
-        Program program = new Program();
+    // public static void Main(string[] args)
+    // {
+    //     Program program = new Program();
 
-        program.SetCustomer("Jun", 1824, new int[] {1111});
-        program.SetCustomer("Armon'e", 1825, new int[] {2222});
+    //     program.SetCustomer("Jun", 1824, new int[] {1111});
+    //     program.SetCustomer("Armon'e", 1825, new int[] {2222});
 
-        program.SetProduct("T-Shirt", 1, 101, 500, "M", "Nike", "Long shirt", 4, 20, 10);
-        program.SetProduct("Jeans", 2, 102, 1000, "L", "Adidas", "Long Jeans", 5, 15, 20);
+    //     program.SetProduct("T-Shirt", 1, 101, 500, "M", "Nike", "Long shirt", 4, 20, 10);
+    //     program.SetProduct("Jeans", 2, 102, 1000, "L", "Adidas", "Long Jeans", 5, 15, 20);
 
-        program.SetCart(1, 123, 1500, 301);
+    //     program.SetCart(1, 123, 1500, 301);
 
-        Console.WriteLine("Customer Info for Jun:");
-        Console.WriteLine(program.GetCustomerInfo("Jun"));
+    //     Console.WriteLine("Customer Info for Jun:");
+    //     Console.WriteLine(program.GetCustomerInfo("Jun"));
 
-        Console.WriteLine("\nProduct Info for T-Shirt:");
-        Console.WriteLine(program.GetProductInfo("T-Shirt"));
+    //     Console.WriteLine("\nProduct Info for T-Shirt:");
+    //     Console.WriteLine(program.GetProductInfo("T-Shirt"));
 
-        Console.WriteLine("\nCart Info for Cart ID 1:");
-        Console.WriteLine(program.GetCartInfo(1));
-    }
+    //     Console.WriteLine("\nCart Info for Cart ID 1:");
+    //     Console.WriteLine(program.GetCartInfo(1));
+    // }
 }

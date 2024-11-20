@@ -1,18 +1,20 @@
-DROP TABLE IF EXISTS guest;
-DROP TABLE IF EXISTS userAddress;
-DROP TABLE IF EXISTS payment; 
-DROP TABLE IF EXISTS customer; 
-DROP TABLE IF EXISTS item; 
-DROP TABLE IF EXISTS category;
-DROP TABLE IF EXISTS sale; 
-DROP TABLE IF EXISTS cart; 
-DROP TABLE IF EXISTS userOrder;
 
-CREATE TABLE guest(
-    guestID INT NOT NULL,
-    paymentID INT NOT NULL,
-    FOREIGN KEY (paymentID) REFERENCES Payment (paymentID)
-);
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS cartItems;
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS userOrder;
+DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS sale;
+DROP TABLE IF EXISTS guest;
+DROP TABLE IF EXISTS payment;
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS userAddress;
+
+
+SET FOREIGN_KEY_CHECKS = 1;
+
 
 CREATE TABLE userAddress (
     userAddressID INT NOT NULL PRIMARY KEY,
@@ -23,29 +25,43 @@ CREATE TABLE userAddress (
     street VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE category (
+    categoryID INT NOT NULL PRIMARY KEY,
+    categoryName VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE sale (
+    saleID INT NOT NULL PRIMARY KEY,
+    dateOfSale DATETIME NOT NULL,
+    saleType VARCHAR(50) NOT NULL, 
+    saleAmount INT NOT NULL
+);
+
+CREATE TABLE payment (
+    paymentID INT NOT NULL PRIMARY KEY, 
+    cardNumber VARCHAR(18) NOT NULL UNIQUE, 
+    expirationDate DATE NOT NULL,
+    cvv INT NOT NULL, 
+    addressID INT NOT NULL,
+    customerID INT,
+    FOREIGN KEY (addressID) REFERENCES userAddress(userAddressID)
+);
+
 CREATE TABLE customer (
     customerID INT NOT NULL PRIMARY KEY,
     userName VARCHAR(255) NOT NULL,
     addressID INT NOT NULL,
-    paymentID INT NOT NULL,
-    FOREIGN KEY (paymentID) REFERENCES payment (paymentID),
-    FOREIGN KEY (addressID) REFERENCES userAddress(userAddressID)
-);
-
-CREATE TABLE payment(
-    paymentID INT NOT NULL PRIMARY KEY, 
-    cardNumber VARCHAR(18) NOT NULL UNIQUE, -- stores this encrypted  
-    expirationDate DATE NOT NULL,
-    cvv INT NOT NULL, 
-    addressID INT NOT NULL,
-    customerID INT NOT NULL, 
+    paymentID INT,
     FOREIGN KEY (addressID) REFERENCES userAddress(userAddressID),
-    FOREIGN KEY (customerID) REFERENCES customer(customerID)
+    FOREIGN KEY (paymentID) REFERENCES payment(paymentID)
 );
 
-CREATE TABLE category(
-    categoryID INT NOT NULL PRIMARY KEY,
-    categoryName VARCHAR(255) NOT NULL,
+ALTER TABLE payment ADD FOREIGN KEY (customerID) REFERENCES customer(customerID);
+
+CREATE TABLE guest (
+    guestID INT NOT NULL,
+    paymentID INT NOT NULL,
+    FOREIGN KEY (paymentID) REFERENCES payment(paymentID)
 );
 
 CREATE TABLE item (
@@ -56,26 +72,25 @@ CREATE TABLE item (
     manufacturer VARCHAR(255) NOT NULL, 
     itemDescription VARCHAR(250) NOT NULL, 
     quantity INT NOT NULL,
-    imageURL VARBINARY(MAX),
-    sku varchar(225) NOT NULL UNIQUE,
+    imageURL LONGBLOB,
+    sku VARCHAR(225) NOT NULL UNIQUE,
     rating FLOAT NOT NULL, 
-    itemType VARCHAR(255),
-    FOREIGN KEY (itemType) REFERENCES category(categoryName),
+    itemType INT,
+    FOREIGN KEY (itemType) REFERENCES category(categoryID),
     FOREIGN KEY (saleID) REFERENCES sale(saleID)
 );
 
-CREATE TABLE sale (
-    saleID INT NOT NULL PRIMARY KEY,
-    dateOfSale DATETIME NOT NULL,
-    saleType VARCHAR(50) NOT NULL, 
-    saleAmount INT NOT NULL
+CREATE TABLE userOrder (
+    userOrderID INT NOT NULL PRIMARY KEY,
+    cartID INT,
+    dateShipped DATETIME
 );
 
 CREATE TABLE cart (
     cartID INT NOT NULL PRIMARY KEY,
     customerID INT NOT NULL, 
     totalCost INT NOT NULL, 
-    orderID INT NOT NULL,
+    orderID INT,
     FOREIGN KEY (customerID) REFERENCES customer(customerID),
     FOREIGN KEY (orderID) REFERENCES userOrder(userOrderID)
 );
@@ -90,9 +105,4 @@ CREATE TABLE cartItems (
     FOREIGN KEY (itemID) REFERENCES item(itemID)
 );
 
-CREATE TABLE userOrder (
-    userOrderID INT NOT NULL PRIMARY KEY,
-    cartID INT NOT NULL, 
-    dateShipped DATETIME,
-    FOREIGN KEY (cartID) REFERENCES cart(cartID)
-);
+ALTER TABLE userOrder ADD FOREIGN KEY (cartID) REFERENCES cart(cartID);
