@@ -1,4 +1,9 @@
+import { useState } from 'react';
 function signUp() {
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     return (
         <div className='SignUp-Screen'>
             <div className='container'>
@@ -11,25 +16,33 @@ function signUp() {
                         <label>Email</label>
                         <input
                             type="email"
-                            placeholder="Enter your email" />
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div className="username">
                         <label>Username</label>
                         <input
                             type="username"
-                            placeholder="Enter your username" />
+                            placeholder="Enter your username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)} />
                     </div>
                     <div className="pasword">
                         <label>Password</label>
                         <input
                             type="password"
-                            placeholder="Enter your password" />
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}                        />
                     </div>
                     <div className="confirm-password">
                         <label>Password</label>
                         <input
                             type="password"
-                            placeholder="confirm your password" />
+                            placeholder="confirm your password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}                        />
                     </div>
                     <div className='submit-container'>
                         <div className="submit">
