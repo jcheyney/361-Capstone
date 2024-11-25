@@ -71,14 +71,14 @@ p{
 .Product .ProductDescription{
   font-family: Arial, Helvetica, sans-serif;
 }
-.Login-Screen {
+.Login {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-    .Login-Screen .container {
+    .Login .container {
         border: 3px solid #ff2400;
         border-radius: 10px;
         box-shadow: 5px 5px 5px #cf6c5c;
@@ -87,7 +87,7 @@ p{
         margin: 50px;
         max-width: 250px;
     }
-.SignUp-Screen {
+.SignUp {
     
     display: flex;
     justify-content: center;
@@ -95,7 +95,7 @@ p{
     height: 100vh;
     
 }
-    .SignUp-Screen .container {
+    .SignUp .container {
         border: 3px solid #ff2400;
         border-radius: 10px;
         box-shadow: 5px 5px 5px #cf6c5c;
