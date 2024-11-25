@@ -1,4 +1,7 @@
+import { useState } from 'react';
 function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     return (
         <div className='Login-Screen'>
             <div className='container'>
@@ -11,13 +14,19 @@ function Login() {
                         <label>Username</label>
                         <input
                             type="username"
-                            placeholder="Enter username" />
+                            placeholder="Enter username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            />
                     </div>
                     <div className="pasword">
                         <label>Password</label>
                         <input
                             type="password"
-                            placeholder="Enter password" />
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
                     <div className='submit-container'>
                         <div className="submit">
