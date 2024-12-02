@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 
 
 const App = () => {
@@ -15,7 +16,9 @@ const App = () => {
       case 'about':
         return <About />;
       case 'cart':
-        return <Cart />;
+        return <Cart setPage={setPage} />;
+      case 'checkout':
+        return <Checkout />
       case 'home':
       default:
         return <Home />;

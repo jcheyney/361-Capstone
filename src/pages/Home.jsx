@@ -31,7 +31,6 @@ const App = () => {
 
   return (
     <>
-      {/* Hero Section */}
       <section className="bg-danger text-light pt-5 text-center">
         <div className="container">
           <div className="d-sm-flex">
@@ -52,7 +51,6 @@ const App = () => {
         </div>
       </section>
 
-      {/* Products Section */}
       <section>
         <div className="container py-3">
           <div className="row row-cols-1 row-cols-md-3 g-4">

@@ -1,39 +1,45 @@
-// src/components/Header.jsx
 import React from 'react';
 
 const Header = ({ setPage }) => {
   return (
-    <><nav class="navbar navbar-expand-md bg-danger navbar-danger py-3">
-      <div class="container">
-        <a href="#" class="navbar-brand text-light">College Clutter</a>
+    <nav className="navbar navbar-expand-md bg-danger navbar-danger py-3">
+      <div className="container">
+        <a href="#" className="navbar-brand text-light">College Clutter</a>
         <button
           type="button"
-          class="navbar-toggler"
+          className="navbar-toggler"
           data-bs-toggle="collapse"
           data-bs-target="#navmenu"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navmenu">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a href="#" class="nav-link text-light">Tops</a>
+        <div className="collapse navbar-collapse" id="navmenu">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <a href="#" className="nav-link text-light">Tops</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link text-light">Bottoms</a>
+            <li className="nav-item">
+              <a href="#" className="nav-link text-light">Bottoms</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link text-light">Dresses</a>
+            <li className="nav-item">
+              <a href="#" className="nav-link text-light">Dresses</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link text-light">Jackets/Hoodies</a>
+            <li className="nav-item">
+              <a href="#" className="nav-link text-light">Jackets/Hoodies</a>
+            </li>
+            <li className="nav-item">
+              <button
+                className="btn btn-light text-danger"
+                onClick={() => setPage('cart')}
+              >
+                Cart
+              </button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    </>
-   );
+  );
 };
 
 export default Header;
