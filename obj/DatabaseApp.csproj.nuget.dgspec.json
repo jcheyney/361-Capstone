@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/olea/jun/361-Capstone/DatabaseApp.csproj": {}
+    "/Users/jkim58@unl.edu/Desktop/361-Capstone/DatabaseApp.csproj": {}
   },
   "projects": {
-    "/Users/olea/jun/361-Capstone/DatabaseApp.csproj": {
+    "/Users/jkim58@unl.edu/Desktop/361-Capstone/DatabaseApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/olea/jun/361-Capstone/DatabaseApp.csproj",
+        "projectUniqueName": "/Users/jkim58@unl.edu/Desktop/361-Capstone/DatabaseApp.csproj",
         "projectName": "DatabaseApp",
-        "projectPath": "/Users/olea/jun/361-Capstone/DatabaseApp.csproj",
-        "packagesPath": "/Users/olea/.nuget/packages/",
-        "outputPath": "/Users/olea/jun/361-Capstone/obj/",
+        "projectPath": "/Users/jkim58@unl.edu/Desktop/361-Capstone/DatabaseApp.csproj",
+        "packagesPath": "/Users/jkim58@unl.edu/.nuget/packages/",
+        "outputPath": "/Users/jkim58@unl.edu/Desktop/361-Capstone/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/olea/.nuget/NuGet/NuGet.Config"
+          "/Users/jkim58@unl.edu/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -43,9 +43,25 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
               "version": "[5.2.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             },
             "MySql.Data": {
               "target": "Package",
@@ -68,11 +84,14 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

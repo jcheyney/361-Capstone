@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Store_App.Controllers.Interfaces;
-using Store_App.Helpers;
-using Store_App.Models.DBClasses;
-using System.Data;
+using DatabaseApp.Models.DBClasses;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace DatabaseApp.Controller {
-    [Route("[controller]/[action]")]
+namespace DatabaseApp.Controllers
+{
+    [Route("api/[controller]")]
     [ApiController]
-    public class cartItemsController : ControllerBase, ICartController 
+    public class CartItemsController : ControllerBase
     {
         private static List<CartItems> cartItems = new List<CartItems>
         {
@@ -16,14 +15,12 @@ namespace DatabaseApp.Controller {
             new CartItems { cartID = 2, itemID = 102, itemCount = 1, itemPrice = 15 }
         };
 
-        // GET: api/CartItems
         [HttpGet]
         public ActionResult<IEnumerable<CartItems>> GetCartItems()
         {
             return Ok(cartItems);
         }
 
-        // GET: api/CartItems/5
         [HttpGet("{cartID}")]
         public ActionResult<CartItems> GetCartItem(int cartID)
         {
@@ -35,7 +32,6 @@ namespace DatabaseApp.Controller {
             return Ok(item);
         }
 
-        // POST: api/CartItems
         [HttpPost]
         public ActionResult<CartItems> CreateCartItem([FromBody] CartItems newItem)
         {
@@ -47,7 +43,6 @@ namespace DatabaseApp.Controller {
             return CreatedAtAction(nameof(GetCartItem), new { cartID = newItem.cartID }, newItem);
         }
 
-        // PUT: api/CartItems/5
         [HttpPut("{cartID}")]
         public ActionResult UpdateCartItem(int cartID, [FromBody] CartItems updatedItem)
         {
@@ -69,7 +64,6 @@ namespace DatabaseApp.Controller {
             return NoContent();
         }
 
-        // DELETE: api/CartItems/5
         [HttpDelete("{cartID}")]
         public ActionResult DeleteCartItem(int cartID)
         {

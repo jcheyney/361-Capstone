@@ -1,63 +1,38 @@
 ﻿using System;
-using MySql.Data.MySqlClient; 
+using MySql.Data.MySqlClient;
 
-public class DBUtils
-{
-    public static MySqlConnection GetDBConnection()
-    {
-       //'jun' account
-        string connString = $"Server=localhost;Database=capstone_db;User Id=jun;Password=evaluation1;SslMode=none;";
-
-       
-        return new MySqlConnection(connString);
-    }
-}
-namespace Tutorial.SqlConn
+namespace DatabaseApp
 {
     public class DBUtils
     {
-        
         public static MySqlConnection GetDBConnection()
         {
-          
-            string datasource = "localhost"; 
-            string database = "capstone_db"; 
-            string username = "jun"; 
-            string password = "evaluation1";
-
-          
-            string connString = $"Server={datasource};Database={database};User Id={username};Password={password};";
-
-            
+            string connString = $"Server=localhost;Database=capstone_db;User Id=jun;Password=evaluation1;SslMode=none;";
             return new MySqlConnection(connString);
         }
     }
 
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Getting Connection ...");
 
-            
             using (MySqlConnection conn = DBUtils.GetDBConnection())
             {
                 try
                 {
                     Console.WriteLine("Opening Connection ...");
-                    conn.Open(); 
+                    conn.Open();
                     Console.WriteLine("Connection successful!");
 
-                    
                     string query = "SELECT * FROM userAddress";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                       
                         using (var reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                               
                                 Console.WriteLine($"ID: {reader["userAddressID"]}, Country: {reader["country"]}");
                             }
                         }
@@ -65,12 +40,10 @@ namespace Tutorial.SqlConn
                 }
                 catch (Exception e)
                 {
-                    
                     Console.WriteLine("Error: " + e.Message);
                 }
             }
 
-            
             Console.ReadLine();
         }
     }
