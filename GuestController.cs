@@ -15,12 +15,14 @@ namespace DatabaseApp.Controllers
             new Guest { guestID = 2, paymentID = 1002 }
         };
 
+        // GET: api/Guest
         [HttpGet]
         public ActionResult<IEnumerable<Guest>> GetGuests()
         {
             return Ok(guests);
         }
 
+        // GET: api/Guest/5
         [HttpGet("{guestID}")]
         public ActionResult<Guest> GetGuest(int guestID)
         {
@@ -32,6 +34,7 @@ namespace DatabaseApp.Controllers
             return Ok(guest);
         }
 
+        // POST: api/Guest
         [HttpPost]
         public ActionResult<Guest> CreateGuest([FromBody] Guest newGuest)
         {
@@ -44,6 +47,7 @@ namespace DatabaseApp.Controllers
             return CreatedAtAction(nameof(GetGuest), new { guestID = newGuest.guestID }, newGuest);
         }
 
+        // PUT: api/Guest/5
         [HttpPut("{guestID}")]
         public ActionResult UpdateGuest(int guestID, [FromBody] Guest updatedGuest)
         {
@@ -63,6 +67,7 @@ namespace DatabaseApp.Controllers
             return NoContent();
         }
 
+        // DELETE: api/Guest/5
         [HttpDelete("{guestID}")]
         public ActionResult DeleteGuest(int guestID)
         {
