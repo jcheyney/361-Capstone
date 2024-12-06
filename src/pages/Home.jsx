@@ -1,11 +1,12 @@
 // src/pages/Home.jsx
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const products = [
     {
       title: "Men's Jacket",
-      imgSrc: 'https://via.placeholder.com/300x250?text=Men%27s+Jacket',
+      imgSrc: 'https://1drv.ms/u/c/79b9f0f13b23b85f/EXI3rUPZirtIubwllgG02YMB4_f1IshHQUKxFjfKcChAMA?e=VhJLN3',
     },
     {
       title: "Women's Dress",
@@ -40,7 +41,7 @@ const App = () => {
                 We have anything you could ever want for tops to bottoms. We even have dresses and jackets for more
                 special occasions.
               </h4>
-              <button className="btn btn-light text-danger btn-lg">Shop Now</button>
+              
             </div>
             <img
               className="img-fluid w-40 ms-auto d-none d-md-block"

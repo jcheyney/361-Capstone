@@ -5,7 +5,11 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Cart from './pages/Cart';
+import Top from './pages/Tops';
 import Checkout from './pages/Checkout';
+import Jacket from './pages/Jackets';
+import Bottom from './pages/Bottoms';
+import Dress from './pages/Dresses';
 
 
 const App = () => {
@@ -16,12 +20,21 @@ const App = () => {
       case 'about':
         return <About />;
       case 'cart':
-        return <Cart setPage={setPage} />;
+        return <Cart />;
+      case 'top':
+        return<Top />;  
       case 'checkout':
-        return <Checkout />
-      case 'home':
+        return<Checkout />
+      case 'jacket':
+        return<Jacket />
+      case 'bottom':
+          return<Bottom />
+      case 'dress':
+        return<Dress />
       default:
         return <Home />;
+      
+      
     }
   };
 

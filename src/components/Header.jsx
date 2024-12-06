@@ -1,31 +1,33 @@
+// src/components/Header.jsx
 import React from 'react';
 
 const Header = ({ setPage }) => {
   return (
-    <nav className="navbar navbar-expand-md bg-danger navbar-danger py-3">
-      <div className="container">
-        <a href="#" className="navbar-brand text-light">College Clutter</a>
+    <><nav class="navbar navbar-expand-md bg-danger navbar-danger py-3">
+      <div class="container">
+        <a href="Home.jsx" class="navbar-brand text-light">College Clutter</a>
         <button
           type="button"
-          className="navbar-toggler"
+          class="navbar-toggler"
           data-bs-toggle="collapse"
           data-bs-target="#navmenu"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navmenu">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <a href="#" className="nav-link text-light">Tops</a>
+        <div class="collapse navbar-collapse" id="navmenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <button href="Tops.jsx" class="nav-link text-light" onClick={() => setPage('top')}>Tops</button>
+              
             </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link text-light">Bottoms</a>
+            <li class="nav-item">
+              <button href="Bottoms.jsx" class="nav-link text-light" onClick={() => setPage('bottom')}>Bottoms</button>
             </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link text-light">Dresses</a>
+            <li class="nav-item">
+              <button href="Dresses.jsx" class="nav-link text-light" onClick={() => setPage('dress')}>Dresses</button>
             </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link text-light">Jackets/Hoodies</a>
+            <li class="nav-item">
+              <button href="Jackets.jsx" class="nav-link text-light" onClick={() => setPage('jacket')}>Jackets/Hoodies</button>
             </li>
             <li className="nav-item">
               <button
@@ -39,7 +41,8 @@ const Header = ({ setPage }) => {
         </div>
       </div>
     </nav>
-  );
+    </>
+   );
 };
 
 export default Header;
