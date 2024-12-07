@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-public class Program
+public class Hash_Map
 {
     private Dictionary<string, object> myMap = new Dictionary<string, object>();
 
-    public void SetCustomer(string username, int addressID, int[] cardIDs)
+    public void SetCustomer(string username, string password ,int addressID, int[] cardIDs)
     {
 
-        myMap[username] = new { AddressID = addressID, CardIDs = cardIDs };
+        myMap[username] = new { AddressID = addressID, CardIDs = cardIDs, Password = password, Username = username };
     }
 
     public void SetProduct(string productName, int itemID, int saleID, int itemWeight, string dimensions, string manufactureInfo, string itemDescription, int rating, int quantity, int photoID)
@@ -33,7 +33,7 @@ public class Program
         myMap[key] = new { CustomerID = customerID, TotalCost = totalCost, OrderID = orderID };
     }
 
-    public object GetCustomerInfo(string username)
+    public dynamic GetCustomerInfo(string username)
     {
         if (myMap.ContainsKey(username))
         {
