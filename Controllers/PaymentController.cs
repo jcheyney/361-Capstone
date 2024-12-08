@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using DatabaseApp.Models.DBClasses;
+using Microsoft.EntityFrameworkCore;
+using DatabaseApp.Controllers.Interfaces;
+//using Store_App.Helpers;
+using DatabaseApp.Models.DataBaseClasses;
 
 namespace DatabaseApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
-    public class PaymentController : ControllerBase
+    public class PaymentController : ControllerBase, IPaymentController
     {
         private readonly List<Payment> _payments;
 
@@ -18,6 +18,7 @@ namespace DatabaseApp.Controllers
             _payments = new List<Payment>
             {
                 new Payment
+                // need to use the hashmaps to get this info from the data base 
                 {
                     paymentID = 1,
                     cardNumber = "1234567812345678",
@@ -31,13 +32,13 @@ namespace DatabaseApp.Controllers
 
         // GET: api/Payment
         [HttpGet]
-        public ActionResult<IEnumerable<Payment>> GetPayments()
+        public ActionResult<IEnumerable<Payment>> GetPayment()
         {
             return Ok(_payments);
         }
 
         // GET: api/Payment/5
-        [HttpGet("{id}")]
+        [HttpGet("{paymentID}")]
         public ActionResult<Payment> GetPayment(int id)
         {
             var payment = _payments.FirstOrDefault(p => p.paymentID == id);
@@ -47,22 +48,33 @@ namespace DatabaseApp.Controllers
                 return NotFound();
             }
 
-            return Ok(payment);
+            return payment;
         }
 
         // POST: api/Payment
         [HttpPost]
         public ActionResult<Payment> CreatePayment([FromBody] Payment newPayment)
         {
-            if (newPayment == null || !ModelState.IsValid)
+            try
             {
-                return BadRequest();
+            if (newPayment == null)
+            {
+                return BadRequest("Payment object is null");
+            }
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
             }
 
             newPayment.paymentID = _payments.Count + 1;
             _payments.Add(newPayment);
 
             return CreatedAtAction(nameof(GetPayment), new { id = newPayment.paymentID }, newPayment);
+             
+            }
+        catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // PUT: api/Payment/5
@@ -71,11 +83,11 @@ namespace DatabaseApp.Controllers
         {
             var payment = _payments.FirstOrDefault(p => p.paymentID == id);
 
-            if (payment == null)
+            if (payment == null || paymentId != payment.PaymentId)
             {
-                return NotFound();
+                return BadRequest("Invalid payment data");
             }
-
+            // if the current payment is null return not found 
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -105,25 +117,5 @@ namespace DatabaseApp.Controllers
 
             return NoContent();
         }
-    }
-
-    // Payment class definition (adjust namespace accordingly)
-    public class Payment
-    {
-        public int paymentID { get; set; }
-
-        [Required]
-        [StringLength(16, MinimumLength = 13)]
-        public string cardNumber { get; set; }
-
-        [Required]
-        public DateTime expirationDate { get; set; }
-
-        [Required]
-        [StringLength(4, MinimumLength = 3)]
-        public string cvv { get; set; }
-
-        public int addressID { get; set; }
-        public int customerID { get; set; }
     }
 }
