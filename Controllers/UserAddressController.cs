@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using DatabaseApp.Models.DBClasses;
 
 namespace DatabaseApp.Controllers
@@ -10,51 +8,57 @@ namespace DatabaseApp.Controllers
     [ApiController]
     public class UserAddressController : ControllerBase
     {
-        private readonly List<UserAddress> _userAddresses;
+        private readonly AppDbContext _context;
 
-        public UserAddressController()
+        public UserAddressController(AppDbContext context)
         {
-            // Example in-memory list; replace with a database context for production
-            _userAddresses = new List<UserAddress>
-            {
-                new UserAddress
-                {
-                    userAddressID = 1,
-                    country = "USA",
-                    userState = "NE",
-                    street = "123 Main St",
-                    city = "Lincoln",
-                    zipcode = "68508"
-                }
-            };
+            _context = context;
         }
 
-        // GET: api/UserAddress
         [HttpGet]
         public ActionResult<IEnumerable<UserAddress>> GetUserAddresses()
         {
-            return Ok(_userAddresses);
+            return Ok(_context.UserAddresses.ToList());
         }
 
-        // GET: api/UserAddress/5
         [HttpGet("{id}")]
         public ActionResult<UserAddress> GetUserAddress(int id)
         {
-            var userAddress = _userAddresses.FirstOrDefault(ua => ua.userAddressID == id);
-
-            if (userAddress == null)
-            {
-                return NotFound();
-            }
-
+            var userAddress = _context.UserAddresses.Find(id);
+            if (userAddress == null) return NotFound();
             return Ok(userAddress);
         }
 
-        // POST: api/UserAddress
         [HttpPost]
-        public ActionResult<UserAddress> CreateUserAddress([FromBody] UserAddress newUserAddress)
+        public IActionResult CreateUserAddress([FromBody] UserAddress userAddress)
         {
-            if (newUserAddress == null || !ModelState.IsValid)
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            _context.UserAddresses.Add(userAddress);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetUserAddress), new { id = userAddress.UserAddressID }, userAddress);
         }
-    }    
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUserAddress(int id, [FromBody] UserAddress updatedUserAddress)
+        {
+            var userAddress = _context.UserAddresses.Find(id);
+            if (userAddress == null) return NotFound();
+
+            _context.Entry(userAddress).CurrentValues.SetValues(updatedUserAddress);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUserAddress(int id)
+        {
+            var userAddress = _context.UserAddresses.Find(id);
+            if (userAddress == null) return NotFound();
+
+            _context.UserAddresses.Remove(userAddress);
+            _context.SaveChanges();
+            return NoContent();
+        }
+    }
 }
