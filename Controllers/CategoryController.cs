@@ -1,7 +1,6 @@
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using DatabaseApp.Models.DBClasses;
 
 namespace DatabaseApp.Controllers
@@ -10,103 +9,57 @@ namespace DatabaseApp.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly List<Category> _categories;
+        private readonly AppDbContext _context;
 
-        public CategoryController()
+        public CategoryController(AppDbContext context)
         {
-            // Example in-memory list; replace with a database context for production
-            _categories = new List<Category>
-            {
-                new Category
-                {
-                    categoryID = 1,
-                    categoryName = "Electronics"
-                }
-            };
+            _context = context;
         }
 
-        // GET: api/Category
         [HttpGet]
         public ActionResult<IEnumerable<Category>> GetCategories()
         {
-            return Ok(_categories);
+            return Ok(_context.Categories.ToList());
         }
 
-        // GET: api/Category/5
         [HttpGet("{id}")]
         public ActionResult<Category> GetCategory(int id)
         {
-            var category = _categories.FirstOrDefault(c => c.categoryID == id);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-
+            var category = _context.Categories.Find(id);
+            if (category == null) return NotFound();
             return Ok(category);
         }
 
-        // POST: api/Category
         [HttpPost]
-        public ActionResult<Category> CreateCategory([FromBody] Category newCategory)
+        public IActionResult CreateCategory([FromBody] Category category)
         {
-            if (newCategory == null || !ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            newCategory.categoryID = _categories.Count + 1;
-            _categories.Add(newCategory);
-
-            return CreatedAtAction(nameof(GetCategory), new { id = newCategory.categoryID }, newCategory);
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetCategory), new { id = category.CategoryID }, category);
         }
 
-        // PUT: api/Category/5
         [HttpPut("{id}")]
-        public ActionResult UpdateCategory(int id, [FromBody] Category updatedCategory)
+        public IActionResult UpdateCategory(int id, [FromBody] Category updatedCategory)
         {
-            var category = _categories.FirstOrDefault(c => c.categoryID == id);
+            var existingCategory = _context.Categories.Find(id);
+            if (existingCategory == null) return NotFound();
 
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            category.categoryName = updatedCategory.categoryName;
-
+            _context.Entry(existingCategory).CurrentValues.SetValues(updatedCategory);
+            _context.SaveChanges();
             return NoContent();
         }
 
-        // DELETE: api/Category/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteCategory(int id)
+        public IActionResult DeleteCategory(int id)
         {
-            var category = _categories.FirstOrDefault(c => c.categoryID == id);
+            var category = _context.Categories.Find(id);
+            if (category == null) return NotFound();
 
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _categories.Remove(category);
-
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
             return NoContent();
         }
-    }
-
-    // Category class definition (adjust namespace accordingly)
-    public class Category
-    {
-        public int categoryID { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string categoryName { get; set; }
     }
 }
-
