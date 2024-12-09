@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DatabaseApp.Models.DBClasses
-public partial class Guest{
-    [Required]
-    public int guestID{ get; set;}
+{
+    public partial class Guest
+    {
+        [Key]
+        public int GuestID { get; set; }
 
-    public int paymentID {get; set;}
-
+        [Required]
+        public int PaymentID { get; set; }
+    }
 }
