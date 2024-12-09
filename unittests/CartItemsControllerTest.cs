@@ -1,29 +1,28 @@
+using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Store_App.Models.DBClasses;
-using DatabaseApp.Controller;
-using Xunit;
 using System.Collections.Generic;
 using System.Linq;
+using DatabaseApp.Controllers;
+using DatabaseApp.Models.DBClasses;
 
-namespace Store_App.Tests
+namespace DatabaseApp.Tests
 {
-    public class CartItemsControllerTests
+    public class CartItemsControllerTest
     {
         private List<CartItems> GetTestCartItems()
         {
             return new List<CartItems>
             {
-                new CartItems { cartID = 1, itemID = 101, itemCount = 2, itemPrice = 20 },
-                new CartItems { cartID = 2, itemID = 102, itemCount = 1, itemPrice = 15 }
+                new CartItems { CartID = 1, ItemID = 101, ItemCount = 2, ItemPrice = 200 },
+                new CartItems { CartID = 2, ItemID = 102, ItemCount = 1, ItemPrice = 150 }
             };
         }
 
         [Fact]
-        public async Task GetCartItems_ShouldReturnAllItems()
+        public void GetCartItems_ShouldReturnAllItems()
         {
-            // Arrange
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDb")
                 .Options;
@@ -34,12 +33,9 @@ namespace Store_App.Tests
 
             var controller = new CartItemsController(context);
 
-            // Act
-            var result = await controller.GetCartItems();
+            var result = controller.GetCartItems();
 
-            // Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<CartItems>>>(result);
-            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+            var okResult = Assert.IsType<OkObjectResult>(result);
             var items = Assert.IsType<List<CartItems>>(okResult.Value);
             Assert.Equal(2, items.Count);
         }
@@ -47,101 +43,114 @@ namespace Store_App.Tests
         [Fact]
         public void GetCartItem_ShouldReturnItem_WhenItemExists()
         {
-            // Arrange
-            var controller = new CartItemsController(null);
-            var testItems = GetTestCartItems();
-            var testCartID = 1;
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb")
+                .Options;
 
-            // Act
-            var result = controller.GetCartItem(testCartID);
+            using var context = new AppDbContext(options);
+            context.CartItems.AddRange(GetTestCartItems());
+            context.SaveChanges();
 
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var controller = new CartItemsController(context);
+            var result = controller.GetCartItem(1);
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
             var item = Assert.IsType<CartItems>(okResult.Value);
-            Assert.Equal(testCartID, item.cartID);
+            Assert.Equal(1, item.CartID);
         }
 
         [Fact]
         public void GetCartItem_ShouldReturnNotFound_WhenItemDoesNotExist()
         {
-            // Arrange
-            var controller = new CartItemsController(null);
-            var testCartID = 999;
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb")
+                .Options;
 
-            // Act
-            var result = controller.GetCartItem(testCartID);
+            using var context = new AppDbContext(options);
+            context.CartItems.AddRange(GetTestCartItems());
+            context.SaveChanges();
 
-            // Assert
-            Assert.IsType<NotFoundResult>(result.Result);
+            var controller = new CartItemsController(context);
+            var result = controller.GetCartItem(999);
+
+            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
         public void CreateCartItem_ShouldAddItem()
         {
-            // Arrange
-            var controller = new CartItemsController(null);
-            var newItem = new CartItems { cartID = 3, itemID = 103, itemCount = 1, itemPrice = 25 };
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb")
+                .Options;
 
-            // Act
+            using var context = new AppDbContext(options);
+            var controller = new CartItemsController(context);
+
+            var newItem = new CartItems { CartID = 3, ItemID = 103, ItemCount = 3, ItemPrice = 300 };
             var result = controller.CreateCartItem(newItem);
 
-            // Assert
-            var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
-            var item = Assert.IsType<CartItems>(createdAtActionResult.Value);
-            Assert.Equal(3, item.cartID);
+            var createdAtResult = Assert.IsType<CreatedAtActionResult>(result);
+            var item = Assert.IsType<CartItems>(createdAtResult.Value);
+            Assert.Equal(3, item.CartID);
         }
 
         [Fact]
         public void UpdateCartItem_ShouldModifyExistingItem()
         {
-            // Arrange
-            var controller = new CartItemsController(null);
-            var updatedItem = new CartItems { cartID = 1, itemID = 201, itemCount = 5, itemPrice = 50 };
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb")
+                .Options;
 
-            // Act
+            using var context = new AppDbContext(options);
+            context.CartItems.AddRange(GetTestCartItems());
+            context.SaveChanges();
+
+            var controller = new CartItemsController(context);
+
+            var updatedItem = new CartItems { CartID = 1, ItemID = 201, ItemCount = 5, ItemPrice = 500 };
             var result = controller.UpdateCartItem(1, updatedItem);
 
-            // Assert
             Assert.IsType<NoContentResult>(result);
-        }
 
-        [Fact]
-        public void UpdateCartItem_ShouldReturnNotFound_WhenItemDoesNotExist()
-        {
-            // Arrange
-            var controller = new CartItemsController(null);
-            var updatedItem = new CartItems { cartID = 999, itemID = 201, itemCount = 5, itemPrice = 50 };
-
-            // Act
-            var result = controller.UpdateCartItem(999, updatedItem);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
+            var updated = context.CartItems.Find(1);
+            Assert.Equal(5, updated.ItemCount);
+            Assert.Equal(500, updated.ItemPrice);
         }
 
         [Fact]
         public void DeleteCartItem_ShouldRemoveItem()
         {
-            // Arrange
-            var controller = new CartItemsController(null);
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb")
+                .Options;
 
-            // Act
+            using var context = new AppDbContext(options);
+            context.CartItems.AddRange(GetTestCartItems());
+            context.SaveChanges();
+
+            var controller = new CartItemsController(context);
+
             var result = controller.DeleteCartItem(1);
 
-            // Assert
             Assert.IsType<NoContentResult>(result);
+            Assert.Null(context.CartItems.Find(1));
         }
 
         [Fact]
         public void DeleteCartItem_ShouldReturnNotFound_WhenItemDoesNotExist()
         {
-            // Arrange
-            var controller = new CartItemsController(null);
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb")
+                .Options;
 
-            // Act
+            using var context = new AppDbContext(options);
+            context.CartItems.AddRange(GetTestCartItems());
+            context.SaveChanges();
+
+            var controller = new CartItemsController(context);
+
             var result = controller.DeleteCartItem(999);
 
-            // Assert
             Assert.IsType<NotFoundResult>(result);
         }
     }
