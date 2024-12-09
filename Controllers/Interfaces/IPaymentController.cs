@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using DatabaseApp.Models.DBClasses;
 
-namespace Store_App.Controllers.Interfaces
+namespace DatabaseApp.Controllers.Interfaces
 {
-    public interface IPaymentController{
+    public interface IPaymentController
+    {
         IEnumerable<Payment> GetPayment();
-        Payment GetPayment(int paymentID);
-        Payment CreatePayment(Payment newPayment);
-        void UpdatePayment(int paymentID, Payment updatedPayment);
-        void DeletePayment(int paymentID);
+        ActionResult<Payment> GetPayment(int paymentID); // Correct return type
+        IActionResult CreatePayment(Payment newPayment); // Correct return type
+        IActionResult UpdatePayment(int paymentID, Payment updatedPayment); // Correct return type
+        IActionResult DeletePayment(int paymentID); // Correct return type
     }
 }
