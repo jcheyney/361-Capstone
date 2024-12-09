@@ -1,17 +1,19 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DatabaseApp.Models.DBClasses
-public partial class CartItems{
-    [Required]
+{
+    public partial class CartItems
+    {
+        [Key]
+        public int CartID { get; set; }
 
-    public int cartID {get; set;}
+        [Required]
+        public int ItemID { get; set; }
 
-    public int itemID {get; set;}
+        [Required]
+        public int ItemCount { get; set; }
 
-    public int itemCount {get; set;}
-
-    public int itemPrice{get; set;}
-
+        [Required]
+        public int ItemPrice { get; set; }
+    }
 }
