@@ -1,85 +1,64 @@
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using DatabaseApp.Models.DBClasses;
 
 namespace DatabaseApp.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ItemsController : ControllerBase
     {
-        private static List<Item> items = new List<Item>(); // Simulating a database
+        private readonly AppDbContext _context;
 
-        // GET: api/items
+        public ItemsController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<Item>> GetItems()
         {
-            return Ok(items);
+            return Ok(_context.Items.ToList());
         }
 
-        // GET: api/items/{id}
         [HttpGet("{id}")]
         public ActionResult<Item> GetItem(int id)
         {
-            var item = items.FirstOrDefault(i => i.itemID == id);
-            if (item == null)
-                return NotFound();
-
+            var item = _context.Items.Find(id);
+            if (item == null) return NotFound();
             return Ok(item);
         }
 
-        // POST: api/items
         [HttpPost]
-        public ActionResult<Item> CreateItem([FromBody] Item newItem)
+        public IActionResult CreateItem([FromBody] Item item)
         {
-            if (newItem == null || !ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            newItem.itemID = items.Count > 0 ? items.Max(i => i.itemID) + 1 : 1; // Assign a unique ID
-            items.Add(newItem);
-
-            return CreatedAtAction(nameof(GetItem), new { id = newItem.itemID }, newItem);
+            _context.Items.Add(item);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetItem), new { id = item.ItemID }, item);
         }
 
-        // PUT: api/items/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateItem(int id, [FromBody] Item updatedItem)
+        public IActionResult UpdateItem(int id, [FromBody] Item updatedItem)
         {
-            var item = items.FirstOrDefault(i => i.itemID == id);
-            if (item == null)
-                return NotFound();
+            var item = _context.Items.Find(id);
+            if (item == null) return NotFound();
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            // Update properties
-            item.salesID = updatedItem.salesID;
-            item.itemWeight = updatedItem.itemWeight;
-            item.dimensions = updatedItem.dimensions;
-            item.manufacture = updatedItem.manufacture;
-            item.itemDescription = updatedItem.itemDescription;
-            item.quantity = updatedItem.quantity;
-            item.imageURL = updatedItem.imageURL;
-            item.sku = updatedItem.sku;
-            item.rating = updatedItem.rating;
-            item.itemType = updatedItem.itemType;
-
+            _context.Entry(item).CurrentValues.SetValues(updatedItem);
+            _context.SaveChanges();
             return NoContent();
         }
 
-        // DELETE: api/items/{id}
         [HttpDelete("{id}")]
-        public ActionResult DeleteItem(int id)
+        public IActionResult DeleteItem(int id)
         {
-            var item = items.FirstOrDefault(i => i.itemID == id);
-            if (item == null)
-                return NotFound();
+            var item = _context.Items.Find(id);
+            if (item == null) return NotFound();
 
-            items.Remove(item);
-
+            _context.Items.Remove(item);
+            _context.SaveChanges();
             return NoContent();
         }
     }
