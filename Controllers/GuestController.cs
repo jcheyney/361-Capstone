@@ -9,75 +9,56 @@ namespace DatabaseApp.Controllers
     [ApiController]
     public class GuestController : ControllerBase
     {
-        private static List<Guest> guests = new List<Guest>
-        {
-            new Guest { guestID = 1, paymentID = 1001 },
-            new Guest { guestID = 2, paymentID = 1002 }
-        };
+        private readonly AppDbContext _context;
 
-        // GET: api/Guest
+        public GuestController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<Guest>> GetGuests()
         {
-            return Ok(guests);
+            return Ok(_context.Guests.ToList());
         }
 
-        // GET: api/Guest/5
-        [HttpGet("{guestID}")]
-        public ActionResult<Guest> GetGuest(int guestID)
+        [HttpGet("{id}")]
+        public ActionResult<Guest> GetGuest(int id)
         {
-            var guest = guests.FirstOrDefault(g => g.guestID == guestID);
-            if (guest == null)
-            {
-                return NotFound();
-            }
+            var guest = _context.Guests.Find(id);
+            if (guest == null) return NotFound();
             return Ok(guest);
         }
 
-        // POST: api/Guest
         [HttpPost]
-        public ActionResult<Guest> CreateGuest([FromBody] Guest newGuest)
+        public IActionResult CreateGuest([FromBody] Guest guest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            guests.Add(newGuest);
-            return CreatedAtAction(nameof(GetGuest), new { guestID = newGuest.guestID }, newGuest);
+            _context.Guests.Add(guest);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetGuest), new { id = guest.GuestID }, guest);
         }
 
-        // PUT: api/Guest/5
-        [HttpPut("{guestID}")]
-        public ActionResult UpdateGuest(int guestID, [FromBody] Guest updatedGuest)
+        [HttpPut("{id}")]
+        public IActionResult UpdateGuest(int id, [FromBody] Guest updatedGuest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var guest = _context.Guests.Find(id);
+            if (guest == null) return NotFound();
 
-            var existingGuest = guests.FirstOrDefault(g => g.guestID == guestID);
-            if (existingGuest == null)
-            {
-                return NotFound();
-            }
-
-            existingGuest.paymentID = updatedGuest.paymentID;
-
+            _context.Entry(guest).CurrentValues.SetValues(updatedGuest);
+            _context.SaveChanges();
             return NoContent();
         }
 
-        // DELETE: api/Guest/5
-        [HttpDelete("{guestID}")]
-        public ActionResult DeleteGuest(int guestID)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteGuest(int id)
         {
-            var guest = guests.FirstOrDefault(g => g.guestID == guestID);
-            if (guest == null)
-            {
-                return NotFound();
-            }
+            var guest = _context.Guests.Find(id);
+            if (guest == null) return NotFound();
 
-            guests.Remove(guest);
+            _context.Guests.Remove(guest);
+            _context.SaveChanges();
             return NoContent();
         }
     }
