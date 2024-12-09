@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Store_App.Controllers.Interfaces;
-using Store_App.Helpers;
-using Store_App.Models.DBClasses;
-using System.Data;
+using DatabaseApp.Controllers.Interfaces;
+using DatabaseApp.Models.DBClasses;
 
-namespace DatabaseApp.Controller {
-    [Route("[controller]/[action]")]
+namespace DatabaseApp.Controllers
+{
+    [Route("api/[controller]")]
     [ApiController]
     public class CartItemsController : ControllerBase, ICartController
     {
@@ -14,93 +13,72 @@ namespace DatabaseApp.Controller {
 
         public CartItemsController(AppDbContext context)
         {
-             _context = context;
+            _context = context;
         }
-    
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CartItems>>> GetCartItems()
+        public IEnumerable<CartItems> GetCartItems()
         {
-             try
-         {
-                var items = await _context.CartItems.ToListAsync();
-              return Ok(items);
-          }   
-          catch (Exception ex)
-          {
-             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database.");
-         }
+            return _context.CartItems.ToList();
         }
 
-        private static List<CartItems> cartItems = new List<CartItems>
+        [HttpGet("{id}")]
+        public ActionResult<CartItems> GetCartItem(int id)
         {
-            new CartItems { cartID = 1, itemID = 101, itemCount = 2, itemPrice = 20 },
-            new CartItems { cartID = 2, itemID = 102, itemCount = 1, itemPrice = 15 }
-        };
-
-        // GET: api/CartItems
-        [HttpGet]
-        public ActionResult<IEnumerable<CartItems>> GetCartItems()
-        {
-            return Ok(cartItems);
-        }
-
-        // GET: api/CartItems/5
-        [HttpGet("{cartID}")]
-        public ActionResult<CartItems> GetCartItem(int cartID)
-        {
-            var item = cartItems.FirstOrDefault(ci => ci.cartID == cartID);
-            if (item == null)
+            var cartItem = _context.CartItems.Find(id);
+            if (cartItem == null)
             {
                 return NotFound();
             }
-            return Ok(item);
+            return Ok(cartItem);
         }
 
-        // POST: api/CartItems
         [HttpPost]
-        public ActionResult<CartItems> CreateCartItem([FromBody] CartItems newItem)
+        public IActionResult CreateCartItem(CartItems cartItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            cartItems.Add(newItem);
-            return CreatedAtAction(nameof(GetCartItem), new { cartID = newItem.cartID }, newItem);
+
+            _context.CartItems.Add(cartItem);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(GetCartItem), new { id = cartItem.CartID }, cartItem);
         }
 
-        // PUT: api/CartItems/5
-        [HttpPut("{cartID}")]
-        public ActionResult UpdateCartItem(int cartID, [FromBody] CartItems updatedItem)
+        [HttpPut("{id}")]
+        public IActionResult UpdateCartItem(int id, CartItems cartItem)
         {
-            if (!ModelState.IsValid)
+            if (id != cartItem.CartID)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
-            var existingItem = cartItems.FirstOrDefault(ci => ci.cartID == cartID);
+            var existingItem = _context.CartItems.Find(id);
             if (existingItem == null)
             {
                 return NotFound();
             }
 
-            existingItem.itemID = updatedItem.itemID;
-            existingItem.itemCount = updatedItem.itemCount;
-            existingItem.itemPrice = updatedItem.itemPrice;
+            _context.Entry(existingItem).CurrentValues.SetValues(cartItem);
+            _context.SaveChanges();
 
             return NoContent();
         }
 
-        // DELETE: api/CartItems/5
-        [HttpDelete("{cartID}")]
-        public ActionResult DeleteCartItem(int cartID)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCartItem(int id)
         {
-            var item = cartItems.FirstOrDefault(ci => ci.cartID == cartID);
+            var item = _context.CartItems.Find(id);
             if (item == null)
             {
                 return NotFound();
             }
 
-            cartItems.Remove(item);
+            _context.CartItems.Remove(item);
+            _context.SaveChanges();
+
             return NoContent();
         }
     }
