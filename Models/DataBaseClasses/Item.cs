@@ -1,29 +1,45 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DatabaseApp.Models.DBClasses
+{
+    public partial class Item
+    {
+        [Key]
+        public int ItemID { get; set; }
 
-public partial class Item{
-    public int itemID{get; set;}
+        public int SalesID { get; set; }
 
-    public int salesID{get; set;}
+        [Required]
+        public int ItemWeight { get; set; }
 
-    public int itemWeight{get; set;}
+        [Required]
+        [StringLength(200)]
+        public string Dimensions { get; set; }
 
-    public string dimensions{get; set;}
+        [Required]
+        [StringLength(100)]
+        public string Manufacture { get; set; }
 
-    public string manufacture{get; set;}
+        [Required]
+        public string ItemDescription { get; set; }
 
-    public string itemDescription{get; set;}
+        [Required]
+        public int Quantity { get; set; }
 
-    public int quantity{get; set;}
+        [Required]
+        [StringLength(200)]
+        public string ImageURL { get; set; }
 
-    public string imageURL{get; set;}
+        [Required]
+        [StringLength(50)]
+        public string SKU { get; set; }
 
-    public string sku{get; set;}
+        [Required]
+        [Range(0, 5)]
+        public float Rating { get; set; }
 
-    public float rating{get; set;}
-
-    public string itemType{get; set;}
+        [Required]
+        [StringLength(100)]
+        public string ItemType { get; set; }
+    }
 }
