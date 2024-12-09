@@ -1,121 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DatabaseApp.Controllers.Interfaces;
-//using Store_App.Helpers;
-using DatabaseApp.Models.DataBaseClasses;
+using DatabaseApp.Models.DBClasses;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DatabaseApp.Controllers
 {
-    [Route("[controller]/[action]")]
     [ApiController]
-    public class PaymentController : ControllerBase, IPaymentController
+    [Route("api/[controller]")]
+    public class PaymentController : ControllerBase
     {
-        private readonly List<Payment> _payments;
+        private readonly AppDbContext _context;
 
-        public PaymentController()
+        public PaymentController(AppDbContext context)
         {
-            // Example in-memory list; replace with a database context for production
-            _payments = new List<Payment>
-            {
-                new Payment
-                // need to use the hashmaps to get this info from the data base 
-                {
-                    paymentID = 1,
-                    cardNumber = "1234567812345678",
-                    expirationDate = new DateTime(2025, 12, 31),
-                    cvv = "123",
-                    addressID = 101,
-                    customerID = 201
-                }
-            };
+            _context = context;
         }
 
-        // GET: api/Payment
+        // GET: api/payment
         [HttpGet]
-        public ActionResult<IEnumerable<Payment>> GetPayment()
+        public ActionResult<IEnumerable<Payment>> GetPayments()
         {
-            return Ok(_payments);
+            return Ok(_context.Payments.ToList());
         }
 
-        // GET: api/Payment/5
-        [HttpGet("{paymentID}")]
+        // GET: api/payment/{id}
+        [HttpGet("{id}")]
         public ActionResult<Payment> GetPayment(int id)
         {
-            var payment = _payments.FirstOrDefault(p => p.paymentID == id);
-
+            var payment = _context.Payments.Find(id);
             if (payment == null)
-            {
                 return NotFound();
-            }
-
-            return payment;
-        }
-
-        // POST: api/Payment
-        [HttpPost]
-        public ActionResult<Payment> CreatePayment([FromBody] Payment newPayment)
-        {
-            try
-            {
-            if (newPayment == null)
-            {
-                return BadRequest("Payment object is null");
-            }
-            if(!ModelState.IsValid){
-                return BadRequest(ModelState);
-            }
-
-            newPayment.paymentID = _payments.Count + 1;
-            _payments.Add(newPayment);
-
-            return CreatedAtAction(nameof(GetPayment), new { id = newPayment.paymentID }, newPayment);
-             
-            }
-        catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        // PUT: api/Payment/5
-        [HttpPut("{id}")]
-        public ActionResult UpdatePayment(int id, [FromBody] Payment updatedPayment)
-        {
-            var payment = _payments.FirstOrDefault(p => p.paymentID == id);
-
-            if (payment == null || paymentId != payment.PaymentId)
-            {
-                return BadRequest("Invalid payment data");
-            }
-            // if the current payment is null return not found 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            payment.cardNumber = updatedPayment.cardNumber;
-            payment.expirationDate = updatedPayment.expirationDate;
-            payment.cvv = updatedPayment.cvv;
-            payment.addressID = updatedPayment.addressID;
-            payment.customerID = updatedPayment.customerID;
-
-            return NoContent();
-        }
-
-        // DELETE: api/Payment/5
-        [HttpDelete("{id}")]
-        public ActionResult DeletePayment(int id)
-        {
-            var payment = _payments.FirstOrDefault(p => p.paymentID == id);
-
-            if (payment == null)
-            {
-                return NotFound();
-            }
-
-            _payments.Remove(payment);
-
-            return NoContent();
+            return Ok(payment);
         }
     }
 }
