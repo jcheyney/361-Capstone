@@ -1,5 +1,5 @@
+// src/pages/Checkout.jsx
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Checkout = () => {
   const [cartItems] = useState([

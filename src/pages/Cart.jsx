@@ -1,5 +1,5 @@
+// src/pages/Cart.jsx
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Cart = ({ setPage }) => {
   const [cartItems, setCartItems] = useState([
