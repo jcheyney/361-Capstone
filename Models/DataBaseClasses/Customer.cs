@@ -1,15 +1,20 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DatabaseApp.Models.DBClasses
+{
+    public partial class Customer
+    {
+        [Key]
+        public int CustomerID { get; set; }
 
-public partial class customer{
-    public int customerID {get; set;}
+        [Required]
+        [StringLength(100)]
+        public string UserName { get; set; }
 
-    public string userName {get; set;}
+        [Required]
+        public int UserID { get; set; }
 
-    public int userID {get; set;}
-
-    public int paymentID {get; set;}
+        [Required]
+        public int PaymentID { get; set; }
+    }
 }
