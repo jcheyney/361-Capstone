@@ -1,50 +1,59 @@
-﻿using System;
+using System;
 using MySql.Data.MySqlClient;
 
-namespace DatabaseApp
+class Program
 {
-    public class DBUtils
+    static void Main(string[] args)
     {
-        public static MySqlConnection GetDBConnection()
-        {
-            string connString = $"Server=localhost;Database=capstone_db;User Id=jun;Password=evaluation1;SslMode=none;";
-            return new MySqlConnection(connString);
-        }
-    }
+        string connectionString = "Server=localhost;Uid=root;Pwd=0000;";
 
-    public class Program
-    {
-        static void Main(string[] args)
+        using (var connection = new MySqlConnection(connectionString))
         {
-            Console.WriteLine("Getting Connection ...");
-
-            using (MySqlConnection conn = DBUtils.GetDBConnection())
+            try
             {
-                try
-                {
-                    Console.WriteLine("Opening Connection ...");
-                    conn.Open();
-                    Console.WriteLine("Connection successful!");
+                Console.WriteLine("Connecting to MySQL...");
+                connection.Open();
 
-                    string query = "SELECT * FROM userAddress";
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                // Check if the database exists
+                string checkDatabaseQuery = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'capstone_db'";
+                using (var checkCmd = new MySqlCommand(checkDatabaseQuery, connection))
+                {
+                    var result = checkCmd.ExecuteScalar();
+                    if (result == null)
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        Console.WriteLine("Database 'capstone_db' not found. Creating...");
+                        string createDatabaseQuery = "CREATE DATABASE capstone_db";
+                        using (var createCmd = new MySqlCommand(createDatabaseQuery, connection))
                         {
-                            while (reader.Read())
-                            {
-                                Console.WriteLine($"ID: {reader["userAddressID"]}, Country: {reader["country"]}");
-                            }
+                            createCmd.ExecuteNonQuery();
+                            Console.WriteLine("Database 'capstone_db' created successfully.");
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Database 'capstone_db' already exists.");
+                    }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: " + e.Message);
-                }
-            }
 
-            Console.ReadLine();
+                // Select the database
+                string useDatabaseQuery = "USE capstone_db;";
+                using (var useCmd = new MySqlCommand(useDatabaseQuery, connection))
+                {
+                    useCmd.ExecuteNonQuery();
+                    Console.WriteLine("Database 'capstone_db' selected.");
+                }
+
+                // Now you can run further queries for this database
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"MySQL Error: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Closing connection...");
+                connection.Close();
+            }
         }
     }
 }
